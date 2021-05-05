@@ -1,8 +1,6 @@
 import {Request, Response} from 'express';
 // type RouteFn = (req: Request, res: Response) => void;
 
-// const mongoClient = require('mongodb').MongoClient;
-// const url = 'mongodb://cosmobam:0vH0d9qTvmSvSpczZDnuKbsnYXtVfGMvxSVqU0JVNUDVndQlGFfOhnwf4iusmgCVyJidCOjNUJYmEkzrHsXXrw==@cosmobam.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@cosmobam@';
 
 function getAllMeme(req: Request, res: Response) {
   res.end('getAllMeme');
