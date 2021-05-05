@@ -1,6 +1,4 @@
 import {Request, Response} from 'express';
-// type RouteFn = (req: Request, res: Response) => void;
-
 
 function getAllMeme(req: Request, res: Response) {
   res.end('getAllMeme');
