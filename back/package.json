@@ -4,9 +4,9 @@
   "description": "memelib_backend",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx ts-mocha tests/*.ts",
     "lint": "eslint . --ext .ts",
-    "start": "node ./api/app.ts"
+    "start": "npx ts-node api/app.ts && node ./api/app.js"
   },
   "repository": {
     "type": "git",
@@ -19,14 +19,19 @@
   },
   "homepage": "https://github.com/aaadlane/meme_lib_MERN#readme",
   "dependencies": {
+    "@types/chai": "^4.2.17",
+    "@types/sinon": "^10.0.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.6",
-    "passport": "^0.4.1"
+    "passport": "^0.4.1",
+    "ts-mocha": "^8.0.0",
+    "ts-sinon": "^2.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
+    "@types/mocha": "^8.2.2",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",

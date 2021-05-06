@@ -29,11 +29,11 @@ function resetPassword(req: Request, res: Response) {
 }
 
 export {
-  resetPassword,
   createUser,
-  updateUser,
   deleteMeme,
-  postMeme,
-  getUser,
   getAllMeme,
+  getUser,
+  postMeme,
+  resetPassword,
+  updateUser,
 };
