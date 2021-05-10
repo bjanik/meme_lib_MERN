@@ -1,27 +1,34 @@
 import {Request, Response} from 'express';
 
+import {checkUserExistence, getCollection, hashPasswordAndInsert} from './utils';
+
+
 function getAllMeme(req: Request, res: Response) {
   res.end('getAllMeme');
-}
-
-function getUser(req: Request, res: Response) {
-  res.end('getUser');
-}
-
-function postMeme(req: Request, res: Response) {
-  res.end('postMeme');
 }
 
 function deleteMeme(req: Request, res: Response) {
   res.end('deleteMeme');
 }
 
-function updateUser(req: Request, res: Response) {
-  res.end('updateUser');
+function login(req: Request, res: Response) {
+  res.end('login');
 }
 
-function createUser(req: Request, res: Response) {
-  res.end('createUser');
+function postMeme(req: Request, res: Response) {
+  res.end('postMeme');
+}
+
+async function register(req: Request, res: Response) {
+  const {email, nickname, password} = req.body;
+  const users = getCollection('users');
+
+  if (await checkUserExistence(users, email) === true) {
+    res.end('User already exists');
+    return;
+  }
+  await hashPasswordAndInsert(users, email, nickname, password);
+  res.end('User successfully added');
 }
 
 function resetPassword(req: Request, res: Response) {
@@ -29,11 +36,10 @@ function resetPassword(req: Request, res: Response) {
 }
 
 export {
-  createUser,
   deleteMeme,
   getAllMeme,
-  getUser,
+  login,
   postMeme,
+  register,
   resetPassword,
-  updateUser,
 };

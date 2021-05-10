@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx ts-mocha tests/*.ts",
     "lint": "eslint . --ext .ts",
-    "start": "npx ts-node api/app.ts && node ./api/app.js"
+    "start": "npx ts-node app.ts && node app.js"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,10 @@
     "ts-sinon": "^2.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.1",
     "@types/express": "^4.17.11",
     "@types/mocha": "^8.2.2",
+    "@types/mongodb": "^3.6.12",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
