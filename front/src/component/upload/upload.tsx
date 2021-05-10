@@ -19,7 +19,7 @@ function Upload() {
       <form id="login_form" action="POST">
         <div className="form_group">
           <label htmlFor="upload">Upload</label>
-          <input type="file" title = "No file choose" name="upload" id="upload_input" className="custom-file-input"/>
+          <input type="file" accept="image/jpg, image/png, image/gif, image/jpeg" title = "No file choose" name="upload" id="upload_input" className="custom-file-input" required/>
           <p className="upload_requirement">Accepted format are : JPG, PNG, GIF</p>
           <p className="upload_requirement">Max size: 5mb</p>
         </div>
@@ -29,14 +29,14 @@ function Upload() {
         </div>
         <div className="form_group">
           <label htmlFor="meme_tag">Tag</label>
-          <select className="form_input" name="meme_tag" required>
-          <option disabled selected value="">- Select tag -</option>
+          <select className="form_input" defaultValue="" name="meme_tag" required>
+          <option disabled  value="">- Select tag -</option>
             <option value="Fun">Fun</option>
             <option value="Sport">Sport</option>
-            <option value="">Animals</option>
-            <option value="">Gaming</option>
-            <option value="">Food/Drink</option>
-            <option value="">Anime</option>
+            <option value="Animals">Animals</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Food/Drink">Food/Drink</option>
+            <option value="Anime">Anime</option>
           </select>
           
         </div>
