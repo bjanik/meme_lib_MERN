@@ -1,4 +1,4 @@
-#login_container{
+#form_container{
     width: 50%;
     margin: auto;
 
@@ -43,6 +43,7 @@
     height: 30px;
     background: rgba(59, 59, 59, 0.5);
     border: 1px solid black;
+    outline: none;
     color: whitesmoke;
 }
 
