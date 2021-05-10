@@ -1,28 +1,27 @@
+import * as express from 'express';
+import {json, urlencoded} from 'body-parser';
+
 import {
-  resetPassword,
-  createUser,
-  updateUser,
   deleteMeme,
-  postMeme,
-  getUser,
   getAllMeme,
+  login,
+  postMeme,
+  register,
+  resetPassword,
 } from './routes';
 
-const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(json());
+app.use(urlencoded({extended: true}));
 
 app.get('/getAllMeme', getAllMeme);
-app.get('/resetPassword', resetPassword);
-app.get('/createUser', createUser);
-app.get('/updateUser', updateUser);
+app.post('/resetPassword', resetPassword);
 app.get('/deleteMeme', deleteMeme);
+app.post('/login', login);
 app.get('/postMeme', postMeme);
-app.get('/getUser', getUser);
+app.post('/register', register);
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log('Listening...');
 });
