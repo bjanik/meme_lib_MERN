@@ -1,15 +1,16 @@
 import {Collection, MongoClient} from 'mongodb';
 import {hash} from 'bcrypt';
+require('dotenv').config();
 
 declare const process: {
     env: {
       MONGODB_URI: string,
       MONGODB_DATABASE: string
-      AZURE_STORAGE_CONNECTION_STRING: string,
+      AZURE_STORAGE_CONNECTION_STRING: string
     }
   };
 
-const client = new MongoClient(process.env.MONGODB_URI);
+const client = new MongoClient(process.env.MONGODB_URI, {useUnifiedTopology: true, useNewUrlParser: true});
 client.connect();
 
 function getCollection(collectionName: string) {
