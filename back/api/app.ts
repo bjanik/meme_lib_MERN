@@ -21,7 +21,7 @@ const upload = multer({storage: storage});
 
 app.get('/getAllMeme', getAllMeme);
 app.post('/resetPassword', resetPassword);
-app.get('/deleteMeme', deleteMeme);
+app.delete('/deleteMeme/:id', deleteMeme);
 app.post('/login', login);
 app.post('/register', register);
 app.post('/postMeme', upload.single('postMeme'), postMeme);

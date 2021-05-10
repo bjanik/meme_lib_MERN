@@ -1,8 +1,12 @@
 /* eslint-disable max-len */
 import {Request, Response} from 'express';
+import {ObjectId} from 'mongodb';
 
-import {checkUserExistence, getCollection, hashPasswordAndInsert} from './utils';
-const mongoClient = require('mongodb').MongoClient;
+import {
+  checkUserExistence,
+  getCollection,
+  hashPasswordAndInsert,
+} from './utils';
 const {
   BlobServiceClient,
   StorageSharedKeyCredential,
@@ -11,11 +15,28 @@ const {
 
 require('dotenv').config();
 
+declare const process: {
+  env: {
+    MONGO_COLLECTION_MEME: string;
+    AZURE_STORAGE_ACCOUNT_ACCESS_KEY: string;
+    AZURE_STORAGE_ACCOUNT_NAME: string;
+    AZURE_STORAGE_CONNECTION_STRING: string;
+    MONGODB_URI: string;
+  };
+};
+
 function getAllMeme(req: Request, res: Response) {
-  res.end('getAllMeme');
+  const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+  memes.find({}).toArray(function(err, result) {
+    if (err) throw err;
+    res.send(result);
+    console.log(result);
+  });
 }
 
 function deleteMeme(req: Request, res: Response) {
+  const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+  memes.findOneAndDelete({_id: new ObjectId(req.params.id)});
   res.end('deleteMeme');
 }
 
@@ -23,7 +44,7 @@ function login(req: Request, res: Response) {
   res.end('login');
 }
 
-function postMeme(req: Request&{file:any}, res: Response) {
+function postMeme(req: Request & { file: any }, res: Response) {
   const sharedKeyCredential = new StorageSharedKeyCredential(
     process.env.AZURE_STORAGE_ACCOUNT_NAME,
     process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY,
@@ -38,28 +59,25 @@ function postMeme(req: Request&{file:any}, res: Response) {
     const containerClient = blobServiceClient.getContainerClient('memes');
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     blockBlobClient.upload(req.file.buffer, req.file.size);
-    mongoClient.connect(process.env.MONGODB_URI, {useUnifiedTopology: true}, function(err: any, db: { db: (arg0: string) => any; close: () => void; }) {
-      if (err) throw err;
-      const dbo = db.db('meme');
-      const myobj = {tags: 'lol', meme_link: `https://bamstoragememe.blob.core.windows.net/memes/${blobName}`, like: 0, title: 'mexican guy cryin'};
-      dbo.collection('mern_lib_bam').insertOne(myobj, function(err: any, res: { insertedCount: string; }) {
-        if (err) throw err;
-        console.log('query inserted: ' + res.insertedCount);
-        db.close();
-      });
-    });
+    const myobj = {
+      tags: req.body.meme_tag,
+      meme_link: `https://bamstoragememe.blob.core.windows.net/memes/${blobName}`,
+      like: 0,
+      title: req.body.meme_name,
+    };
+    const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+    memes.insertOne(myobj);
     res.end('postMeme');
   } catch (err) {
     console.log(err);
   }
 }
 
-
 async function register(req: Request, res: Response) {
   const {email, nickname, password} = req.body;
   const users = getCollection('users');
 
-  if (await checkUserExistence(users, email) === true) {
+  if ((await checkUserExistence(users, email)) === true) {
     res.end('User already exists');
     return;
   }
@@ -71,11 +89,4 @@ function resetPassword(req: Request, res: Response) {
   res.end('resetPassword');
 }
 
-export {
-  deleteMeme,
-  getAllMeme,
-  login,
-  postMeme,
-  register,
-  resetPassword,
-};
+export {deleteMeme, getAllMeme, login, postMeme, register, resetPassword};
