@@ -1,19 +1,15 @@
 /* eslint-disable max-len */
 import {Request, Response} from 'express';
 import {ObjectId} from 'mongodb';
+import {BlobServiceClient} from '@azure/storage-blob';
 
 import {
+  checkUserPassword,
   checkUserExistence,
+  generateToken,
   getCollection,
   hashPasswordAndInsert,
 } from './utils';
-const {
-  BlobServiceClient,
-  StorageSharedKeyCredential,
-  newPipeline,
-} = require('@azure/storage-blob');
-
-require('dotenv').config();
 
 declare const process: {
   env: {
@@ -30,7 +26,6 @@ function getAllMeme(req: Request, res: Response) {
   memes.find({}).toArray(function(err, result) {
     if (err) throw err;
     res.send(result);
-    console.log(result);
   });
 }
 
@@ -40,20 +35,27 @@ function deleteMeme(req: Request, res: Response) {
   res.end('deleteMeme');
 }
 
-function login(req: Request, res: Response) {
-  res.end('login');
+async function login(req: Request, res: Response) {
+  const {email, password} = req.body;
+  const users = getCollection('users');
+
+  const user = await checkUserExistence(users, email);
+  if (user === null) {
+    res.end('User does not exist');
+    return;
+  }
+  if (await checkUserPassword(user, password) === true) {
+    const token = generateToken(user.id);
+    res.send({token: token});
+    return;
+  }
+  res.end('Incorrect password');
 }
 
 function postMeme(req: Request & { file: any }, res: Response) {
-  const sharedKeyCredential = new StorageSharedKeyCredential(
-    process.env.AZURE_STORAGE_ACCOUNT_NAME,
-    process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY,
-  );
-  const pipeline = newPipeline(sharedKeyCredential);
   try {
     const blobServiceClient = BlobServiceClient.fromConnectionString(
       process.env.AZURE_STORAGE_CONNECTION_STRING,
-      pipeline,
     );
     const blobName = `dossier/${req.file.originalname}`;
     const containerClient = blobServiceClient.getContainerClient('memes');
@@ -77,7 +79,8 @@ async function register(req: Request, res: Response) {
   const {email, nickname, password} = req.body;
   const users = getCollection('users');
 
-  if ((await checkUserExistence(users, email)) === true) {
+  const user = await checkUserExistence(users, email);
+  if (user !== null) {
     res.end('User already exists');
     return;
   }
