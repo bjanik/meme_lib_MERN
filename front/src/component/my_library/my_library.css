@@ -1,0 +1,76 @@
+.title{
+    font-family: 'Press Start 2P', cursive;
+}
+
+#page_container{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: 3px solid black;
+    background: rgba(145, 145, 145, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+
+.meme_card{
+    width: 300px;
+    height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .meme_card:hover{
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+} */
+
+.icon_like{
+    display: none;
+    position:absolute;
+    right: -0px;
+    top: 5px;
+    width: 30px;
+    filter: invert(98%) sepia(91%) saturate(6657%) hue-rotate(355deg) brightness(106%) contrast(108%);
+    height: 30px;
+    cursor: pointer;
+}
+
+.icon_delete{
+    display: none;
+        position: absolute;
+        left: 10px;
+        top: 5px;
+        width: 30px;
+        filter: invert(14%) sepia(96%) saturate(6688%) hue-rotate(359deg) brightness(97%) contrast(116%);
+        height: 30px;
+        cursor: pointer;
+}
+.myMeme{
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.meme_card:hover .icon_delete,.meme_card:hover .icon_like{
+    display: inline;
+}
+
+.myMeme_title{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    /* max-width: 50%; */
+    max-height: 50px;
+    text-align: center;
+    margin: 0px;
+    color: whitesmoke;
+}
