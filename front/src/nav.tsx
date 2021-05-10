@@ -23,7 +23,7 @@ function Nav() {
                                 <ul className="sous">
                                     <li><Link className="submenu" to="/update_password">Modify password</Link></li>
                                     <li><Link className="submenu" to="/upload">Post Meme</Link></li>
-                                    <li><Link className="submenu" to="/:id/library">My memes</Link></li>
+                                    <li><Link className="submenu" to="/library">My memes</Link></li>
                                     <li><a className="submenu" onClick={logout} href="/home" >Logout</a></li>
                                 </ul>
                                 </li>
