@@ -1,38 +1,93 @@
 .App {
   text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  color: white
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+h4{
+  font-size: 70px;
+  margin: 0 0 15px;
+  color: salmon;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#home_header{
+  padding: 50px;
+  text-transform: uppercase;
+  font-size: 18px;
+  border: 2px solid white;
+  width: 50%;
+  margin: 30px auto 60px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  background: rgba(145, 145, 145, 0.3);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+#home_logo{
+  height: 250px;
+  width: 250px;
+}
+
+#list_of_memes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+}
+
+
+.meme_card{
+  width: 300px;
+  height: 300px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.icon_like{
+  display: none;
+  position:absolute;
+  right: -0px;
+  top: 5px;
+  width: 30px;
+  filter: invert(98%) sepia(91%) saturate(6657%) hue-rotate(355deg) brightness(106%) contrast(108%);
+  height: 30px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.icon_delete{
+  display: none;
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      width: 30px;
+      filter: invert(14%) sepia(96%) saturate(6688%) hue-rotate(359deg) brightness(97%) contrast(116%);
+      height: 30px;
+      cursor: pointer;
+}
+.myMeme{
+  max-width: 250px;
+  max-height: 250px;
+}
+
+.meme_card:hover .icon_delete,.meme_card:hover .icon_like{
+  display: inline;
+}
+
+.myMeme_title{
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  /* max-width: 50%; */
+  max-height: 50px;
+  text-align: center;
+  margin: 0px;
+  color: whitesmoke;
 }
