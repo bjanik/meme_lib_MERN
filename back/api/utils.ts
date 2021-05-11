@@ -37,6 +37,11 @@ async function checkUserPassword(user: any, password: string) {
   return match;
 }
 
+async function updateUserPassword(users: Collection<any>, email: string, newPassword: string) {
+  const hashedPassword = await hash(newPassword, 10);
+  users.updateOne({email: email}, {$set: {password: hashedPassword}});
+}
+
 function generateToken(userId: number) {
   return jwt.sign({userId}, process.env.JWT_SECRET);
 }
@@ -47,4 +52,5 @@ export {
   generateToken,
   getCollection,
   hashPasswordAndInsert,
+  updateUserPassword,
 };

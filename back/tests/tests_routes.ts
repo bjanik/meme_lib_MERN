@@ -154,13 +154,67 @@ describe('Testing postMeme', () => {
 });
 
 describe('Testing resetPassword', () => {
-  it('should send "resetPassword"', () => {
-    const req = {};
+  it('should fail because user does not exist', async () => {
+    const req = {
+      body: {
+        id: 64978,
+        email: 'admin@admin.com',
+        nickname: 'admin',
+        password: 'admin',
+      },
+    };
     const res = {
       end: sinon.spy(),
     };
-    routes.resetPassword(req, res);
+
+    sinon.stub(utils, 'getCollection').resolves(mockDatabase['users']);
+    sinon.stub(utils, 'checkUserExistence').resolves(null);
+    await routes.resetPassword(req, res);
     expect(res.end.calledOnce).to.be.true;
-    expect(res.end.args[0][0]).to.have.string('resetPassword');
+    expect(res.end.args[0][0]).to.have.string('User does not exist');
+    sinon.restore();
+  });
+
+  it('Should fail because passwords do not match', async () => {
+    const req = {
+      body: {
+        id: 64978,
+        email: 'admin@admin.com',
+        nickname: 'admin',
+        password: 'admin',
+      },
+    };
+    const res = {
+      end: sinon.spy(),
+    };
+
+    sinon.stub(utils, 'getCollection').resolves(mockDatabase['users']);
+    sinon.stub(utils, 'checkUserExistence').resolves({email: 'admin@admin.com'});
+    sinon.stub(utils, 'checkUserPassword').resolves(false);
+    await routes.resetPassword(req, res);
+    expect(res.end.calledOnce).to.be.true;
+    expect(res.end.args[0][0]).to.have.string('Bad password');
+    sinon.restore();
+  });
+
+  it('Should succeed because passwords do match', async () => {
+    const req = {
+      body: {
+        id: 64978,
+        email: 'admin@admin.com',
+        nickname: 'admin',
+        password: 'admin',
+      },
+    };
+    const res = {
+      end: sinon.spy(),
+    };
+
+    sinon.stub(utils, 'getCollection').resolves(mockDatabase['users']);
+    sinon.stub(utils, 'checkUserExistence').resolves({email: 'admin@admin.com'});
+    sinon.stub(utils, 'checkUserPassword').resolves(true);
+    await routes.resetPassword(req, res);
+    expect(res.end.calledOnce).to.be.true;
+    expect(res.end.args[0][0]).to.have.string('Password changed successfully');
   });
 });

@@ -9,8 +9,8 @@ import {
   generateToken,
   getCollection,
   hashPasswordAndInsert,
+  updateUserPassword,
 } from './utils';
-import { hash } from 'bcrypt';
 
 declare const process: {
   env: {
@@ -92,13 +92,12 @@ async function resetPassword(req: Request, res: Response) {
   const users = getCollection('users');
 
   const user = await checkUserExistence(users, email);
-  if (user !== null) {
-    res.end('User already exists');
+  if (user === null) {
+    res.end('User does not exist');
     return;
   }
   if (await checkUserPassword(user, password) === true) {
-    const hashedPassword = await hash(newPassword, 10);
-    users.updateOne({email: email}, {password: hashedPassword});
+    updateUserPassword(users, email, newPassword);
     res.end('Password changed successfully');
     return;
   }
