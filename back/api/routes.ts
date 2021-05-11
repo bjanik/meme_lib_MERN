@@ -10,6 +10,7 @@ import {
   getCollection,
   hashPasswordAndInsert,
 } from './utils';
+import { hash } from 'bcrypt';
 
 declare const process: {
   env: {
@@ -86,8 +87,22 @@ async function register(req: Request, res: Response) {
   res.end('User successfully added');
 }
 
-function resetPassword(req: Request, res: Response) {
-  res.end('resetPassword');
+async function resetPassword(req: Request, res: Response) {
+  const {email, password, newPassword} = req.body;
+  const users = getCollection('users');
+
+  const user = await checkUserExistence(users, email);
+  if (user !== null) {
+    res.end('User already exists');
+    return;
+  }
+  if (await checkUserPassword(user, password) === true) {
+    const hashedPassword = await hash(newPassword, 10);
+    users.updateOne({email: email}, {password: hashedPassword});
+    res.end('Password changed successfully');
+    return;
+  }
+  res.end('Bad password');
 }
 
 export {deleteMeme, getAllMeme, login, postMeme, register, resetPassword};
