@@ -4,7 +4,7 @@
   "description": "memelib_backend",
   "main": "app.js",
   "scripts": {
-    "test": " JWT_SECRET='unittestsecret' npx ts-mocha tests/*.ts",
+    "test": "JWT_SECRET='unittestsecret' npx ts-mocha tests/*.ts",
     "lint": "eslint . --ext .ts",
     "start": "npx ts-node app.ts && node app.js"
   },
