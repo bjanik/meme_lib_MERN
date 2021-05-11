@@ -14,8 +14,6 @@ import {
 declare const process: {
   env: {
     MONGO_COLLECTION_MEME: string;
-    AZURE_STORAGE_ACCOUNT_ACCESS_KEY: string;
-    AZURE_STORAGE_ACCOUNT_NAME: string;
     AZURE_STORAGE_CONNECTION_STRING: string;
     MONGODB_URI: string;
   };
