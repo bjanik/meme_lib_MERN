@@ -2,6 +2,7 @@
 import {Request, Response} from 'express';
 import {ObjectId} from 'mongodb';
 import {BlobServiceClient} from '@azure/storage-blob';
+import {exception} from 'console';
 
 import {
   checkUserPassword,
@@ -90,9 +91,14 @@ async function register(req: Request, res: Response) {
 async function resetPassword(req: Request, res: Response) {
   const {id, password, newPassword} = req.body;
   const users = getCollection('users');
+  let user;
 
-  const user = await checkUserExistence(users, {_id: new ObjectId(id)});
-  if (user === null) {
+  try {
+    user = await checkUserExistence(users, {_id: new ObjectId(id)});
+    if (user === null) {
+      throw exception;
+    }
+  } catch (err) {
     res.end('User does not exist');
     return;
   }

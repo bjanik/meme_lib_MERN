@@ -18,7 +18,6 @@ app.use(urlencoded({extended: true}));
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
-
 app.get('/getAllMeme', getAllMeme);
 app.post('/resetPassword', resetPassword);
 app.delete('/deleteMeme/:id', deleteMeme);
@@ -29,5 +28,3 @@ app.post('/postMeme', upload.single('postMeme'), postMeme);
 app.listen(process.env.PORT || 80, () => {
   console.log('Listening...');
 });
-
-
