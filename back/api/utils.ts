@@ -1,4 +1,4 @@
-import {Collection, MongoClient} from 'mongodb';
+import {Collection, MongoClient, ObjectId} from 'mongodb';
 import {compare, hash} from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -20,8 +20,8 @@ function getCollection(collectionName: string) {
   return collection;
 }
 
-async function checkUserExistence(users: Collection<any>, email: string) {
-  const user = await users.findOne({email: email});
+async function checkUserExistence(users: Collection<any>, valueChecked: object) {
+  const user = await users.findOne(valueChecked);
   return user;
 }
 
@@ -37,9 +37,9 @@ async function checkUserPassword(user: any, password: string) {
   return match;
 }
 
-async function updateUserPassword(users: Collection<any>, email: string, newPassword: string) {
+async function updateUserPassword(users: Collection<any>, id: string, newPassword: string) {
   const hashedPassword = await hash(newPassword, 10);
-  users.updateOne({email: email}, {$set: {password: hashedPassword}});
+  users.updateOne({_id: new ObjectId(id)}, {$set: {password: hashedPassword}});
 }
 
 function generateToken(userId: number) {

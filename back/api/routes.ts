@@ -38,13 +38,13 @@ async function login(req: Request, res: Response) {
   const {email, password} = req.body;
   const users = getCollection('users');
 
-  const user = await checkUserExistence(users, email);
+  const user = await checkUserExistence(users, {email: email});
   if (user === null) {
     res.end('User does not exist');
     return;
   }
   if (await checkUserPassword(user, password) === true) {
-    const token = generateToken(user.id);
+    const token = generateToken(user._id);
     res.send({token: token});
     return;
   }
@@ -78,7 +78,7 @@ async function register(req: Request, res: Response) {
   const {email, nickname, password} = req.body;
   const users = getCollection('users');
 
-  const user = await checkUserExistence(users, email);
+  const user = await checkUserExistence(users, {email: email});
   if (user !== null) {
     res.end('User already exists');
     return;
@@ -88,16 +88,16 @@ async function register(req: Request, res: Response) {
 }
 
 async function resetPassword(req: Request, res: Response) {
-  const {email, password, newPassword} = req.body;
+  const {id, password, newPassword} = req.body;
   const users = getCollection('users');
 
-  const user = await checkUserExistence(users, email);
+  const user = await checkUserExistence(users, {_id: new ObjectId(id)});
   if (user === null) {
     res.end('User does not exist');
     return;
   }
   if (await checkUserPassword(user, password) === true) {
-    updateUserPassword(users, email, newPassword);
+    updateUserPassword(users, id, newPassword);
     res.end('Password changed successfully');
     return;
   }
