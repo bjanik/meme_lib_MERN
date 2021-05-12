@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import * as sinon from 'sinon';
 import {assert, expect} from 'chai';
 
@@ -216,5 +218,6 @@ describe('Testing resetPassword', () => {
     await routes.resetPassword(req, res);
     expect(res.end.calledOnce).to.be.true;
     expect(res.end.args[0][0]).to.have.string('Password changed successfully');
+    sinon.restore();
   });
 });
