@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
 
 function App() {
 
   const [status, setStatus] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+      getDataFetch();
+  }, []);
+
+  const getDataFetch = async () => {
+    const response = await axios.get('https://api-bameme.azurewebsites.net/getAllMeme');
+    if(response.data){
+      setData(response.data);
+      // console.log(response.data.results);
+      console.log('userdata=',response.data)
+    }
+  };
 
   return (
     <div className="global_container">
@@ -15,116 +28,17 @@ function App() {
         <h4>MemeLord</h4> 
       </header>
       <section id="list_of_memes">
-         <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
+        {data.map(item => (
+            <div key={item._id}  className="meme_card">
+              {status
+                  ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
+                  : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
+              }
+              <img className="myMeme" src={item.meme_link} alt="test"/>
+              <p className="myMeme_title">{item.title}</p>
             </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
-            <div className="meme_card">
-                {status
-                    ? <img src="star-solid.svg"  onClick={()=>setStatus(false)} className="icon_like" alt="like" />
-                    : <img src="star-regular.svg" onClick={()=>setStatus(true)} className="icon_like" alt="like" /> 
-                }
-                {/* <img src="star-regular.svg" onClick={liked} className="icon_like" /> */}
-                 
-                <img className="myMeme" src="giflogo.gif" alt="test"/>
-                <p className="myMeme_title">meme title</p>
-            </div>
+        ))}
+
       </section>
     </div>
     </div>

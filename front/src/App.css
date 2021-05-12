@@ -76,6 +76,7 @@ h4{
 .myMeme{
   max-width: 250px;
   max-height: 250px;
+  margin-bottom: 15px;
 }
 
 .meme_card:hover .icon_delete,.meme_card:hover .icon_like{
