@@ -18,7 +18,8 @@ resource "azurerm_app_service" "memelordapp" {
     app_service_plan_id = azurerm_app_service_plan.asp.id
 
     site_config {
-        linux_fx_version = "DOCKER|${azurerm_container_registry.acr.name}/${var.rg_name}_api"
+        linux_fx_version = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.rg_name}_api"
+        always_on        = "true"
         cors {
             allowed_origins = ["*"]
         }
@@ -31,5 +32,7 @@ resource "azurerm_app_service" "memelordapp" {
         "MONGODB_URI"                     = azurerm_cosmosdb_account.cosmos_account.connection_strings[0]
         "AZURE_STORAGE_CONNECTION_STRING" = azurerm_storage_account.storageaccount.primary_connection_string
         "DOCKER_REGISTRY_SERVER_URL"      = azurerm_container_registry.acr.login_server
+        "DOCKER_REGISTRY_SERVER_USERNAME" = azurerm_container_registry.acr.admin_username
+        "DOCKER_REGISTRY_SERVER_PASSWORD" = azurerm_container_registry.acr.admin_password
   }
 }
