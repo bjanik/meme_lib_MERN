@@ -11,3 +11,12 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+terraform {
+  backend "azurerm" {
+    resource_group_name = "terraform"
+    storage_account_name = "memelordstoragebackend"
+    container_name = "terraformcontainer"
+    key = "terraform.tfstate"
+  }
+}

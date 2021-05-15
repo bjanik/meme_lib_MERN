@@ -1,6 +1,6 @@
 variable "rg_name" {
     description = "Name of the resource group"
-    default     = "BAM_rg"
+    default     = "memelord"
 }
 
 variable "region" {
