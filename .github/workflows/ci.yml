@@ -5,17 +5,17 @@ on:
 name: Backend Container workflows
 
 jobs:
-    run-backend-unit-tests:
-        runs-on: ubuntu-latest
-        env:
-          working-directory: ./back
-        steps:
-          - name: 'Checkout GitHub Action'
-            uses: actions/checkout@v2
-          - run: npm run test
+    # run-backend-unit-tests:
+    #     runs-on: ubuntu-latest
+    #     env:
+    #       working-directory: ./back
+    #     steps:
+    #       - name: 'Checkout GitHub Action'
+    #         uses: actions/checkout@v2
+    #       - run: npm run test
 
     build-and-deploy-backend-container:
-        needs: run-backend-unit-tests
+        # needs: run-backend-unit-tests
         runs-on: ubuntu-latest
         env:
           working-directory: ./back
