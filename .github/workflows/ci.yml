@@ -4,6 +4,8 @@ on:
   push:
     branches: 
       - '*'
+  pull_request:
+    branches: ['master']
 
 jobs:
     run-backend-unit-tests:
@@ -11,9 +13,17 @@ jobs:
         env:
           working-directory: ./back
         steps:
-          - name: 'Checkout GitHub Action'
-            uses: actions/checkout@v2
-          - run: npm run test
+          - uses: actions/checkout@v2
+          - name: Test Backend
+            uses: actions/setup-node@v1
+            with:
+              node-version: '15.x'
+          - name: Install dependencies
+            run: npm install
+          - name: Run tests
+            run: |
+              pwd ; ls
+              npm run test
 
     build-and-deploy-backend-container:
         needs: run-backend-unit-tests
