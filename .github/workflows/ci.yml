@@ -22,7 +22,7 @@ jobs:
             run: npm install
           - name: Run tests
             run: |
-              pwd ; ls
+              pwd ; ls; cd back
               npm run test
 
     build-and-deploy-backend-container:
