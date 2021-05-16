@@ -9,9 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: 'Checkout GitHub Action'
-          uses: actions/checkout@v2
-
-        - name: run tests
+        - uses: actions/checkout@v2
         - run: npm run test
 
     build-and-deploy-backend-container:
