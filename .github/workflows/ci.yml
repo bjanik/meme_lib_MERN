@@ -6,28 +6,23 @@ on:
       - '*'
 
 jobs:
-    # run-backend-unit-tests:
-    #     runs-on: ubuntu-latest
-    #     env:
-    #       working-directory: ./back
-    #     steps:
-    #       - name: 'Checkout GitHub Action'
-    #         uses: actions/checkout@v2
-    #       - run: npm run test
-
-    build-and-deploy-backend-container:
-        # needs: run-backend-unit-tests
+    run-backend-unit-tests:
         runs-on: ubuntu-latest
         env:
           working-directory: ./back
         steps:
           - name: 'Checkout GitHub Action'
             uses: actions/checkout@v2
-          
-          # - name: 'Login via Azure CLI'
-          #   uses: azure/login@v1
-          #   with:
-          #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+          - run: npm run test
+
+    build-and-deploy-backend-container:
+        needs: run-backend-unit-tests
+        runs-on: ubuntu-latest
+        env:
+          working-directory: ./back
+        steps:
+          - name: 'Checkout GitHub Action'
+            uses: actions/checkout@v2
 
           - name: 'Build and push image'
             uses: azure/docker-login@v1
