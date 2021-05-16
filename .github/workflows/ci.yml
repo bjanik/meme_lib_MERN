@@ -19,10 +19,10 @@ jobs:
             with:
               node-version: '15.x'
           - name: Install dependencies
-            run: npm install
+            run: cd back ; npm install
           - name: Run tests
             run: |
-              pwd ; ls; cd back
+              pwd ; ls; cd back ; ls
               npm run test
 
     build-and-deploy-backend-container:
