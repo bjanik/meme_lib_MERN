@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import '../login_register/login.css';
 import axios from 'axios';
+import jwt_decode from "jwt-decode"
 
 
 function Update_password() {
 
-  const [user, setUser] = useState({ password :'', newPassword:'', confirmNewPassword:''});
-  console.log(user)
-
+  const [user, setUser] = useState({ password :'', newPassword:'', confirmNewPassword:'', id:''});
     function handleChange(event) {
       const value = event.target.value;
       setUser({
@@ -18,8 +17,12 @@ function Update_password() {
 
 
     function handleSubmit(event) {
-      // user.id = "609b895fe2722b001ef5440c"
-      console.log(user);
+      
+      if (localStorage.getItem('token')) {
+      let token: string = localStorage.getItem('token');
+      var decoded: any = jwt_decode(token);
+      }
+      user.id = decoded.userId;
       event.preventDefault();
           if (user.newPassword === user.confirmNewPassword) {
             axios.post('https://api-bameme.azurewebsites.net/resetPassword', user)
