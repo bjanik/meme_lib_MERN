@@ -10,8 +10,7 @@ on:
 jobs:
     run-backend-unit-tests:
         runs-on: ubuntu-latest
-        env:
-          working-directory: ./back
+          
         steps:
           - uses: actions/checkout@v2
           - name: Test Backend
@@ -19,11 +18,14 @@ jobs:
             with:
               node-version: '15.x'
           - name: Install dependencies
-            run: pwd ;ls ; npm install
+            working-directory: ./back
+            run: npm install
           - name: Run tests
+            working-directory: ./back
             run: |
-              pwd ; ls; cd back ; ls
+              ls
               npm run test
+
 
     build-and-deploy-backend-container:
         needs: run-backend-unit-tests
