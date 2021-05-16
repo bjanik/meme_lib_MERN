@@ -19,7 +19,7 @@ jobs:
             with:
               node-version: '15.x'
           - name: Install dependencies
-            run: cd back ; npm install
+            run: pwd ;ls ; npm install
           - name: Run tests
             run: |
               pwd ; ls; cd back ; ls
