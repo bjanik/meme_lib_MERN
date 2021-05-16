@@ -1,8 +1,9 @@
+name: Backend Container workflow
+
 on:
   push:
     branches: 
       - '*'
-name: Backend Container workflow
 
 jobs:
     # run-backend-unit-tests:
