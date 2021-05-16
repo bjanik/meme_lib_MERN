@@ -18,7 +18,7 @@ resource "azurerm_app_service" "memelordapp" {
     app_service_plan_id = azurerm_app_service_plan.asp.id
 
     site_config {
-        linux_fx_version = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.rg_name}_api"
+        linux_fx_version = "DOCKER|${azurerm_container_registry.acr.login_server}/${var.memelord}_api"
         always_on        = "true"
         cors {
             allowed_origins = ["*"]
