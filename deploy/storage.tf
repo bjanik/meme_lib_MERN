@@ -1,8 +1,8 @@
 
 resource "azurerm_storage_account" "storageaccount" {
-    name                     = "${var.rg_name}storageaccount"
-    resource_group_name      = azurerm_resource_group.rg.name
-    location                 = azurerm_resource_group.rg.location
+    name                     = "${var.memelord}storageaccount"
+    resource_group_name      = "${var.rg_name}"
+    location                 = "${var.region}"
     account_tier             = "Standard"
     account_replication_type = "LRS"
 }

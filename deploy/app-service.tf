@@ -1,7 +1,7 @@
 resource "azurerm_app_service_plan" "asp" {
-    name                = "${var.rg_name}-app-service-plan"
-    location            = azurerm_resource_group.rg.location
-    resource_group_name = azurerm_resource_group.rg.name
+    name                = "${var.memelord}-app-service-plan"
+    resource_group_name = "${var.rg_name}"
+    location            = "${var.region}"
     kind = "Linux"
     reserved = true
     
@@ -12,9 +12,9 @@ resource "azurerm_app_service_plan" "asp" {
 }
 
 resource "azurerm_app_service" "memelordapp" {
-    name                = "${var.rg_name}-app-service"
-    resource_group_name = azurerm_resource_group.rg.name
-    location            = azurerm_resource_group.rg.location
+    name                = "${var.memelord}-api"
+    resource_group_name = "${var.rg_name}"
+    location            = "${var.region}"
     app_service_plan_id = azurerm_app_service_plan.asp.id
 
     site_config {

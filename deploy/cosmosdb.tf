@@ -1,7 +1,7 @@
 resource "azurerm_cosmosdb_account" "cosmos_account" {
-    name                = "${var.rg_name}-cosmos-account"
-    resource_group_name = azurerm_resource_group.rg.name
-    location            = azurerm_resource_group.rg.location
+    name                = "${var.memelord}-cosmos-account"
+    resource_group_name = "${var.rg_name}"
+    location            = "${var.region}"
     offer_type          = "Standard"
     kind                = "MongoDB"
 
@@ -10,7 +10,7 @@ resource "azurerm_cosmosdb_account" "cosmos_account" {
     }
 
     geo_location {
-        location          = azurerm_resource_group.rg.location
+        location          = "${var.region}"
         failover_priority = 0
     }
 
@@ -28,23 +28,23 @@ resource "azurerm_cosmosdb_account" "cosmos_account" {
 }
 
 resource "azurerm_cosmosdb_mongo_database" "cosmosdb" {
-    name                = "${var.rg_name}-cosmos-database"
-    resource_group_name = azurerm_resource_group.rg.name
+    name                = "${var.memelord}-cosmos-database"
+    resource_group_name = "${var.rg_name}"
     account_name        = azurerm_cosmosdb_account.cosmos_account.name
     throughput          = 400
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "users_collection" {
-    name                = "${var.rg_name}_users"
-    resource_group_name = azurerm_resource_group.rg.name
+    name                = "${var.memelord}_users"
+    resource_group_name = "${var.rg_name}"
     account_name        = azurerm_cosmosdb_account.cosmos_account.name
     database_name       = azurerm_cosmosdb_mongo_database.cosmosdb.name
     throughput          = 400
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "memes_collection" {
-    name                = "${var.rg_name}_memes"
-    resource_group_name = azurerm_resource_group.rg.name
+    name                = "${var.memelord}_memes"
+    resource_group_name = "${var.rg_name}"
     account_name        = azurerm_cosmosdb_account.cosmos_account.name
     database_name       = azurerm_cosmosdb_mongo_database.cosmosdb.name
     throughput          = 400
