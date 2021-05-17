@@ -1,9 +1,7 @@
 name: Backend Container workflow
-
 on:
   push:
-    branches: 
-      - '*'
+    branches: ['master']
   pull_request:
     branches: ['master']
 
@@ -22,9 +20,8 @@ jobs:
           - name: Run tests
             working-directory: ./back
             run: |
-              ls
+              npm run lint
               npm run test
-
 
     build-and-deploy-backend-container:
         needs: run-backend-unit-tests
