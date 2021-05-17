@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function Upload() {
 
-  const [user, setUser] = useState({title:'', tags:''});
+  const [user, setUser] = useState({meme_name:'', meme_tag:''});
   const [postMeme, setFile] = useState(null);
   console.log(user)
   console.log(postMeme)
@@ -21,17 +21,17 @@ function Upload() {
 
     function handleChangeFile(event) {
       const value = event.target.files[0];
-      setFile({
-          postMeme: value
-        });
+      setFile(
+          value
+        );
       }
 
   function handleSubmit(event) {
     console.log(user)
     var formData = new FormData();
     formData.append("postMeme", postMeme);
-    formData.append("title", user.title);
-    formData.append("tags", user.tags);
+    formData.append("meme_name", user.meme_name);
+    formData.append("meme_tag", user.meme_tag);
     console.log("formdata=",formData);
     event.preventDefault();
       axios.post('https://api-bameme.azurewebsites.net/postMeme', formData, {
@@ -58,11 +58,11 @@ function Upload() {
         </div>
         <div className="form_group">
           <label htmlFor="meme_name">Meme name</label>
-          <input className="form_input" pattern='[a-zA-Z0-9]{4,20}' placeholder="Enter name" type="text" onChange={handleChange} name="title" required />
+          <input className="form_input" pattern='[a-zA-Z0-9]{4,20}' placeholder="Enter name" type="text" onChange={handleChange} name="meme_name" required />
         </div>
         <div className="form_group">
           <label htmlFor="meme_tag">Tag</label>
-          <select className="form_input" defaultValue="" name="tags" onChange={handleChange} required>
+          <select className="form_input" defaultValue="" name="meme_tag" onChange={handleChange} required>
           <option disabled  value="">- Select tag -</option>
             <option value="Fun">Fun</option>
             <option value="Sport">Sport</option>
