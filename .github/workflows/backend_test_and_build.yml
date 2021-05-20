@@ -1,7 +1,7 @@
 name: Backend Container workflow
 on:
   push:
-    branches: ['master']
+    branches: ['master', 'terraform_deployment']
   pull_request:
     branches: ['master']
 
@@ -33,9 +33,11 @@ jobs:
           uses: hashicorp/setup-terraform@v1
 
         - name: Terraform Init
+          working-directory: ./deploy
           run: terraform init
 
         - name: Terraform apply
+          working-directory: ./deploy
           run: terraform apply --auto-approve
 
 
