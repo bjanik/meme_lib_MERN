@@ -23,8 +23,24 @@ jobs:
               npm run lint
               npm run test
 
+    terraform:
+      needs: run-backend-unit-tests
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v1
+
+        - name: Terraform Init
+          run: terraform init
+
+        - name: Terraform apply
+          run: terraform apply --auto-approve
+
+
     build-and-deploy-backend-container:
-        needs: run-backend-unit-tests
+        needs: terraform
         runs-on: ubuntu-latest
         env:
           working-directory: ./back
