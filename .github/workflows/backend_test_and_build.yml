@@ -1,0 +1,43 @@
+name: Backend Container workflow
+on:
+  push:
+    branches: ['master']
+  pull_request:
+    branches: ['master']
+
+jobs:
+    run-backend-unit-tests:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Test Backend
+            uses: actions/setup-node@v1
+            with:
+              node-version: '15.x'
+          - name: Install dependencies
+            working-directory: ./back
+            run: npm install
+          - name: Run tests
+            working-directory: ./back
+            run: |
+              npm run lint
+              npm run test
+
+    build-and-deploy-backend-container:
+        needs: run-backend-unit-tests
+        runs-on: ubuntu-latest
+        env:
+          working-directory: ./back
+        steps:
+          - name: 'Checkout GitHub Action'
+            uses: actions/checkout@v2
+
+          - name: 'Build and push image'
+            uses: azure/docker-login@v1
+            with:
+              login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+              username: ${{ secrets.REGISTRY_USERNAME }}
+              password: ${{ secrets.REGISTRY_PASSWORD }}
+          - run: |
+              docker build ${{ env.working-directory }} -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/memelord_api
+              docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/memelord_api
