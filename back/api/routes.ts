@@ -15,14 +15,15 @@ import {
 
 declare const process: {
   env: {
-    MONGO_COLLECTION_MEME: string;
+    MONGO_COLLECTION_MEMES: string;
     AZURE_STORAGE_CONNECTION_STRING: string;
+    MONGO_COLLECTION_USERS: string;
     MONGODB_URI: string;
   };
 };
 
 function getAllMeme(req: Request, res: Response) {
-  const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+  const memes = getCollection(process.env.MONGO_COLLECTION_MEMES);
   memes.find({}).toArray(function(err, result) {
     if (err) throw err;
     res.send(result);
@@ -30,14 +31,14 @@ function getAllMeme(req: Request, res: Response) {
 }
 
 function deleteMeme(req: Request, res: Response) {
-  const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+  const memes = getCollection(process.env.MONGO_COLLECTION_MEMES);
   memes.findOneAndDelete({_id: new ObjectId(req.params.id)});
   res.end('deleteMeme');
 }
 
 async function login(req: Request, res: Response) {
   const {email, password} = req.body;
-  const users = getCollection('users');
+  const users = getCollection(process.env.MONGO_COLLECTION_USERS);
 
   const user = await checkUserExistence(users, {email: email});
   if (user === null) {
@@ -67,7 +68,7 @@ function postMeme(req: Request & { file: any }, res: Response) {
       like: 0,
       title: req.body.meme_name,
     };
-    const memes = getCollection(process.env.MONGO_COLLECTION_MEME);
+    const memes = getCollection(process.env.MONGO_COLLECTION_MEMES);
     memes.insertOne(myobj);
     res.end('postMeme');
   } catch (err) {
@@ -77,7 +78,7 @@ function postMeme(req: Request & { file: any }, res: Response) {
 
 async function register(req: Request, res: Response) {
   const {email, nickname, password} = req.body;
-  const users = getCollection('users');
+  const users = getCollection(process.env.MONGO_COLLECTION_USERS);
 
   const user = await checkUserExistence(users, {email: email});
   if (user !== null) {
@@ -90,7 +91,7 @@ async function register(req: Request, res: Response) {
 
 async function resetPassword(req: Request, res: Response) {
   const {id, password, newPassword} = req.body;
-  const users = getCollection('users');
+  const users = getCollection(process.env.MONGO_COLLECTION_USERS);
   let user;
 
   try {
