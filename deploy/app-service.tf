@@ -27,7 +27,7 @@ resource "azurerm_app_service" "memelordapp" {
 
     app_settings = {
         "DOCKER_ENABLE_CI"                = true
-        "MONGO_COLLECTION_USER"           = azurerm_cosmosdb_mongo_collection.users_collection.name
+        "MONGO_COLLECTION_USERS"          = azurerm_cosmosdb_mongo_collection.users_collection.name
         "MONGO_COLLECTION_MEMES"          = azurerm_cosmosdb_mongo_collection.memes_collection.name
         "MONGODB_URI"                     = azurerm_cosmosdb_account.cosmos_account.connection_strings[0]
         "AZURE_STORAGE_CONNECTION_STRING" = azurerm_storage_account.storageaccount.primary_connection_string
