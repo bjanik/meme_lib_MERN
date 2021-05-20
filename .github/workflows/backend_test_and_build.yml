@@ -1,7 +1,7 @@
 name: Backend Container workflow
 on:
   push:
-    branches: ['master']
+    branches: ['master', '*']
   pull_request:
     branches: ['master']
 
@@ -26,6 +26,11 @@ jobs:
     terraform:
       needs: run-backend-unit-tests
       runs-on: ubuntu-latest
+      env:
+        ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       steps:
         - uses: actions/checkout@v2
 
@@ -33,11 +38,12 @@ jobs:
           uses: hashicorp/setup-terraform@v1
 
         - name: Terraform Init
+          working-directory: ./deploy
           run: terraform init
 
         - name: Terraform apply
+          working-directory: ./deploy
           run: terraform apply --auto-approve
-
 
     build-and-deploy-backend-container:
         needs: terraform
